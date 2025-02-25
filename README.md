@@ -2,7 +2,7 @@
 
 This is a python server (soon to-be) for an online version of the card game The Crew.
 
-## Setting up the repo 
+## Setting up the repo
 
 (in case I clean up my Windows machine)
 
