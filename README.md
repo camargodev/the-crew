@@ -18,3 +18,9 @@ This is a python server (soon to-be) for an online version of the card game The 
 ### Dependencies
 
 - `pip install pytest`
+- `pip install pytest-cov`
+
+## To run tests with coverage
+
+- `pytest --cov=src --cov-report=html`
+- Open `htmlcov\index.html` on a browser
