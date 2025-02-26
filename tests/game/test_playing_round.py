@@ -7,7 +7,7 @@ from src.game.playing_round import GameRound
 def test_initial_round_type():
     """Test if round_type is initially None."""
     game_round = GameRound([])
-    assert game_round.round_type is None
+    assert game_round.round_data.round_type is None
 
 
 def test_player_play_card():
@@ -19,8 +19,8 @@ def test_player_play_card():
     game_round = GameRound(players = [john])
     played_player = game_round.player_play_card(john, rocket_2)
     assert played_player == john
-    assert game_round.played_cards[john] == rocket_2
-    assert game_round.round_type == CardType.ROCKET
+    assert game_round.round_data.card_by_player[john] == rocket_2
+    assert game_round.round_data.round_type == CardType.ROCKET
 
 
 def test_player_play_card_twice():
