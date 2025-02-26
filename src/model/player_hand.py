@@ -14,7 +14,7 @@ class CardHand:
             self.cards.remove(card)
         else:
             raise ValueError("Card not in hand")
-        
+
     def has_card(self, card: Card) -> bool:
         return card in self.cards
     
