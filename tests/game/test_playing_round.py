@@ -93,7 +93,7 @@ def test_get_round_winner_rocket_wins():
     assert winning_card == rocket_2
 
 def test_get_round_winner_wrong_type_are_ignored():
-    """Test if Rocket cards win over non-rocket cards."""
+    """Test that only cards of the correct type are considered"""
     blue_1 = Card(CardType.BLUE, 1)
     yellow_9 = Card(CardType.YELLOW, 9)
     pink_9 = Card(CardType.PINK, 9)

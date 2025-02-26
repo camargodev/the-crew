@@ -1,8 +1,10 @@
 from src.model.card import Card, CardType
+from dataclasses import dataclass, field
+from typing import List
 
+@dataclass
 class CardHand:
-    def __init__(self, cards):
-        self.cards = cards
+    cards: List[Card] = field(default_factory=list)
 
     def add_card(self, card: Card):
         self.cards.append(card)
@@ -15,23 +17,14 @@ class CardHand:
 
     def has_card(self, card: Card) -> bool:
         return card in self.cards
-
-    def __repr__(self):
-        return f"CardHand({self.cards})"
-    
-    def __eq__(self, other):
-        if not isinstance(other, CardHand):
-            return False
-        return set(self.cards) == set(other.cards)
     
     def __hash__(self):
-        return hash(tuple(set(self.cards))) 
+        return hash(tuple(set(self.cards)))
 
-
+@dataclass(frozen=True)
 class Player:
-    def __init__(self, name: str, card_hand = None):
-        self.name = name
-        self.card_hand = card_hand if card_hand is not None else CardHand([])
+    name: str
+    card_hand: CardHand
 
     def deal_card(self, card: Card):
         self.card_hand.add_card(card)
@@ -42,16 +35,4 @@ class Player:
     def is_captain(self) -> bool:
         """Returns True if the player has a ROCKET 4."""
         return self.card_hand.has_card(Card(CardType.ROCKET, 4))
-
-    def __repr__(self):
-        return f"Player(name={self.name}, hand={self.card_hand})"
-    
-    def __eq__(self, other):
-        if not isinstance(other, Player):
-            return False
-        return self.name == other.name and self.card_hand == other.card_hand
-    
-    def __hash__(self):
-        # Hash based on the player's name and their hand of cards
-        return hash((self.name, self.card_hand))
 
