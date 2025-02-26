@@ -29,9 +29,9 @@ class CardHand:
 
 
 class Player:
-    def __init__(self, name: str):
+    def __init__(self, name: str, card_hand = None):
         self.name = name
-        self.card_hand = CardHand([])
+        self.card_hand = card_hand if card_hand is not None else CardHand([])
 
     def deal_card(self, card: Card):
         self.card_hand.add_card(card)
