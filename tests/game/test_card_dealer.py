@@ -1,12 +1,12 @@
 import pytest
 from src.game.card_dealer import CardDealer
-from src.model.player_hand import Player
+from src.model.player_hand import Player, CardHand
 
 @pytest.fixture
 def dealer_and_players():
     """Fixture to set up a new CardDealer instance and four players."""
     dealer = CardDealer()
-    players = [Player(f"Player {i+1}") for i in range(4)]
+    players = [Player(f"Player {i+1}", CardHand([])) for i in range(4)]
     return dealer, players
 
 def test_deal_cards(dealer_and_players):
