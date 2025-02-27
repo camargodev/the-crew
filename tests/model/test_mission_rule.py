@@ -1,4 +1,3 @@
-import pytest
 from src.model.card import Card, CardType
 from src.model.player_hand import Player, CardHand
 from src.model.round_data import RoundData

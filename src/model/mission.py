@@ -7,11 +7,11 @@ from src.model.game_data import GameData
 class MissionRule(ABC):
     @abstractmethod
     def is_rule_satisfied(self, game_data: GameData) -> bool:
-        pass
+        pass # pragma: no cover
 
     @abstractmethod
     def is_rule_broken(self, game_data: GameData) -> bool:
-        pass
+        pass # pragma: no cover
 
 @dataclass(frozen=True)
 class PlayerHasToWinCardRule(MissionRule):
