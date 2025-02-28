@@ -1,12 +1,13 @@
 import pytest
 from src.game.card_dealer import CardDealer
-from src.model.player_hand import Player, CardHand
+from src.model.card import ALL_CARDS
+from tests.helpers.test_data_creation_helper import create_player
 
 @pytest.fixture
-def dealer_and_players():
+def dealer_and_players(): #  -> tuple[CardDealer, list[Player]]
     """Fixture to set up a new CardDealer instance and four players."""
     dealer = CardDealer()
-    players = [Player(f"Player {i+1}", CardHand([])) for i in range(4)]
+    players = [create_player(f"Player {i+1}") for i in range(4)]
     return dealer, players
 
 def test_deal_cards(dealer_and_players):
@@ -20,7 +21,7 @@ def test_deal_cards(dealer_and_players):
         print(player.name, player.is_captain(), len(player.card_hand.cards), player.card_hand)
 
     # Assert all cards in the deck were distributed
-    assert len(all_cards) == len(dealer.deck)
+    assert set(all_cards) == set(ALL_CARDS)
 
     # Assert there are no duplicate cards
     assert len(all_cards) == len(set(all_cards))

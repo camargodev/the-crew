@@ -1,7 +1,4 @@
-from src.model.card import Card, CardType
-from src.model.player_hand import Player, CardHand
-from src.model.round_data import RoundData
-from src.model.game_data import GameData
+from src.model.card import *
 from src.model.mission import (
     PlayerHasToWinCardRule,
     NeverWinWithNumberRule,
@@ -9,21 +6,12 @@ from src.model.mission import (
     WinWithAllTheseCardsRule,
     PlayerShouldNeverWinRule,
 )
+from tests.helpers.test_data_creation_helper import create_finished_round, create_test_game, create_player
 
-PLAYER_1 = Player("PLAYER_1", CardHand())
-PLAYER_2 = Player("PLAYER_2", CardHand())
+PLAYER_1 = create_player("P1")
+PLAYER_2 = create_player("P2")
 
-BLUE_6 = Card(CardType.BLUE, 6)
-BLUE_8 = Card(CardType.BLUE, 8)
-YELLOW_9 = Card(CardType.YELLOW, 9)
-YELLOW_5 = Card(CardType.YELLOW, 5)
-ROCKET_1 = Card(CardType.ROCKET, 1)
-ROCKET_2 = Card(CardType.ROCKET, 2)
-ROCKET_3 = Card(CardType.ROCKET, 3)
-ROCKET_4 = Card(CardType.ROCKET, 4)
-PINK_2 = Card(CardType.PINK, 2)
-GREEN_4 = Card(CardType.GREEN, 4)
-PINK_1 = Card(CardType.PINK, 1)
+
 ALL_ROCKETS = {ROCKET_1, ROCKET_2, ROCKET_3, ROCKET_4}
 
 def test_player_has_to_win_card_rule__player_won_card():
@@ -194,17 +182,3 @@ def test_player_should_never_win__game_not_finished_and_player_won():
     rule = PlayerShouldNeverWinRule(player_that_should_never_win=PLAYER_2)
     assert rule.is_rule_satisfied(game) == False
     assert rule.is_rule_broken(game) == True
-
-def create_finished_round(card_by_player: dict[Player, Card]) -> GameData:
-    players = card_by_player.keys
-    round = RoundData(players)
-    for player, card in card_by_player.items():
-        round.add_played_card(player, card)
-    return round
-
-def create_test_game(num_of_rounds, rounds_already_played: list[RoundData]) -> GameData:
-    game =  GameData(num_of_rounds)
-    for round in rounds_already_played:
-        game.add_round(round)
-    return game
-

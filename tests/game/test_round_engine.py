@@ -1,7 +1,8 @@
 import pytest
-from src.model.player_hand import Player, CardHand
-from src.model.card import Card, CardType
+from src.model.card import CardType
 from src.game.round_engine import RoundEngine
+from src.model.card import *
+from tests.helpers.test_data_creation_helper import create_player
 
 def test_initial_round_type():
     """Test if round_type is initially None."""
@@ -11,35 +12,32 @@ def test_initial_round_type():
 
 def test_player_play_card():
     """Test if a player can play a card."""
-    rocket_2 = Card(CardType.ROCKET, 2)
-    john = Player("John", CardHand([rocket_2]))
+    john = create_player("John", [ROCKET_2])
 
     # Player should be able to play the card
     game_round = RoundEngine(players = [john])
-    played_player = game_round.player_play_card(john, rocket_2)
+    played_player = game_round.player_play_card(john, ROCKET_2)
     assert played_player == john
-    assert game_round.round_data.card_by_player[john] == rocket_2
+    assert game_round.round_data.card_by_player[john] == ROCKET_2
     assert game_round.round_data.round_type == CardType.ROCKET
 
 
 def test_player_play_card_twice():
     """Test if a player cannot play more than one card."""
-    blue_3 = Card(CardType.BLUE, 3)
-    blue_7 = Card(CardType.BLUE, 7)
-    john = Player("John", CardHand([blue_3, blue_7]))
+    john = create_player("John", [BLUE_3, BLUE_7])
 
     # First card should work
     game_round = RoundEngine(players = [john])
-    game_round.player_play_card(john, blue_3)
+    game_round.player_play_card(john, BLUE_3)
 
     # Second card should raise an error
     with pytest.raises(ValueError):
-        game_round.player_play_card(john, blue_7)
+        game_round.player_play_card(john, BLUE_7)
 
         
 def test_get_round_winner_no_cards_played():
     """Test if no winner is determined if no cards are played."""
-    john = Player("John", CardHand([Card(CardType.BLUE, 3), Card(CardType.BLUE, 7)]))
+    john = create_player("John", [BLUE_3, BLUE_7])
 
     game_round = RoundEngine(players = [john])
 
@@ -49,94 +47,76 @@ def test_get_round_winner_no_cards_played():
 
 def test_get_round_winner_non_rocket():
     """Test if the winner is determined correctly for non-rocket cards."""
-    blue_3 = Card(CardType.BLUE, 3)
-    blue_7 = Card(CardType.BLUE, 7)
-    blue_5 = Card(CardType.BLUE, 5)
-
-    john = Player("John", CardHand([blue_3]))
-    julie = Player("Julie", CardHand([blue_7]))
-    matthew = Player("Matthew", CardHand([blue_5]))
+    john = create_player("John", [BLUE_3])
+    julie = create_player("Julie", [BLUE_7])
+    matthew = create_player("Matthew", [BLUE_5])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
     # Players play their cards
-    game_round.player_play_card(john, blue_3)
-    game_round.player_play_card(julie, blue_7)
-    game_round.player_play_card(matthew, blue_5)
+    game_round.player_play_card(john, BLUE_3)
+    game_round.player_play_card(julie, BLUE_7)
+    game_round.player_play_card(matthew, BLUE_5)
 
     # Winner should be the player who played the highest card
     winner, winning_card = game_round.get_round_winner()
     assert winner == julie
-    assert winning_card == blue_7
+    assert winning_card == BLUE_7
 
 def test_get_round_winner_rocket_wins():
-    """Test if Rocket cards win over non-rocket cards."""
-    blue_3 = Card(CardType.BLUE, 3)
-    blue_7 = Card(CardType.BLUE, 7)
-    rocket_2 = Card(CardType.ROCKET, 2)
-    
-    john = Player("John", CardHand([blue_3]))
-    julie = Player("Julie", CardHand([blue_7]))
-    matthew = Player("Matthew", CardHand([rocket_2]))
+    """Test if Rocket cards win over non-rocket cards."""    
+    john = create_player("John", [BLUE_3])
+    julie = create_player("Julie", [BLUE_7])
+    matthew = create_player("Matthew", [ROCKET_2])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
     # Players play their cards
-    game_round.player_play_card(john, blue_3)
-    game_round.player_play_card(julie, blue_7)
-    game_round.player_play_card(matthew, rocket_2)
+    game_round.player_play_card(john, BLUE_3)
+    game_round.player_play_card(julie, BLUE_7)
+    game_round.player_play_card(matthew, ROCKET_2)
 
     # Winner should be the player who played the highest card
     winner, winning_card = game_round.get_round_winner()
     assert winner == matthew
-    assert winning_card == rocket_2
+    assert winning_card == ROCKET_2
 
 def test_get_round_winner_wrong_type_are_ignored():
-    """Test that only cards of the correct type are considered"""
-    blue_1 = Card(CardType.BLUE, 1)
-    yellow_9 = Card(CardType.YELLOW, 9)
-    pink_9 = Card(CardType.PINK, 9)
-    
-    john = Player("John", CardHand([blue_1]))
-    julie = Player("Julie", CardHand([yellow_9]))
-    matthew = Player("Matthew", CardHand([pink_9]))
+    """Test that only cards of the correct type are considered"""    
+    john = create_player("John", [BLUE_1])
+    julie = create_player("Julie", [YELLOW_9])
+    matthew = create_player("Matthew", [PINK_9])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
     # Players play their cards
-    game_round.player_play_card(john, blue_1)
-    game_round.player_play_card(julie, yellow_9)
-    game_round.player_play_card(matthew, pink_9)
+    game_round.player_play_card(john, BLUE_1)
+    game_round.player_play_card(julie, YELLOW_9)
+    game_round.player_play_card(matthew, PINK_9)
 
     # Winner should be the player who played the highest card
     winner, winning_card = game_round.get_round_winner()
     assert winner == john
-    assert winning_card == blue_1
+    assert winning_card == BLUE_1
 
-def test_get_round_winner_rocket_highest():
-    """Test if the highest Rocket card wins."""
-    rocket_4 = Card(CardType.ROCKET, 4)
-    blue_1 = Card(CardType.BLUE, 1)
-    rocket_1 = Card(CardType.ROCKET, 1)
-    yellow_9 = Card(CardType.YELLOW, 9)
-    rocket_2 = Card(CardType.ROCKET, 2)
-    
-    john = Player("John", CardHand([rocket_4]))
-    julie = Player("Julie", CardHand([blue_1]))
-    matthew = Player("Matthew", CardHand([rocket_1]))
-    anne = Player("Anne", CardHand([yellow_9]))
-    luke = Player("Luke", CardHand([rocket_2]))
+def test_get_round_winner_ROCKET_highest():
+    """Test if the highest Rocket card wins."""   
+    john = create_player("John", [ROCKET_4])
+    julie = create_player("Julie", [BLUE_1])
+    matthew = create_player("Matthew", [ROCKET_1])
+    anne = create_player("Anne", [YELLOW_9])
+    luke = create_player("Luke", [ROCKET_2])
 
     game_round = RoundEngine(players = [john, julie, matthew, anne, luke])
 
     # Players play their cards
-    game_round.player_play_card(john, rocket_4)
-    game_round.player_play_card(julie, blue_1)
-    game_round.player_play_card(matthew, rocket_1)
-    game_round.player_play_card(anne, yellow_9)
-    game_round.player_play_card(luke, rocket_2)
+    game_round.player_play_card(john, ROCKET_4)
+    game_round.player_play_card(julie, BLUE_1)
+    game_round.player_play_card(matthew, ROCKET_1)
+    game_round.player_play_card(anne, YELLOW_9)
+    game_round.player_play_card(luke, ROCKET_2)
 
     # Winner should be the player who played the highest card
     winner, winning_card = game_round.get_round_winner()
     assert winner == john
-    assert winning_card == rocket_4
+    assert winning_card == ROCKET_4
