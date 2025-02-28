@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from src.model.player_hand import Player
-from src.model.card import Card, get_cards_by_number
+from src.model.card import Card, CardsOperation
 from src.model.game_data import GameData
 
 class MissionRule(ABC):
@@ -38,7 +38,7 @@ class NeverWinWithNumberRule(MissionRule):
     number: int
 
     def is_rule_satisfied(self, game_data: GameData) -> bool:
-        all_cards_of_number = get_cards_by_number(self.number)
+        all_cards_of_number = CardsOperation.get_cards_by_number(self.number)
         all_cards_played = game_data.get_all_cards_played()
         all_number_cards_played =  all_cards_of_number.issubset(all_cards_played)
         if not game_data.is_finished() and not all_number_cards_played:

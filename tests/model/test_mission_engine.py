@@ -1,6 +1,6 @@
 from src.model.card import *
 from src.model.card import ALL_ROCKETS
-from src.model.mission import (
+from src.game.mission_engine import (
     PlayerHasToWinCardRule,
     NeverWinWithNumberRule,
     WinOnceWithNumberRule,
