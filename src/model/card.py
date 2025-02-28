@@ -49,3 +49,9 @@ __all__ = [
     "GREEN_1", "GREEN_2", "GREEN_3", "GREEN_4", "GREEN_5", "GREEN_6", "GREEN_7", "GREEN_8", "GREEN_9",
     "ROCKET_1", "ROCKET_2", "ROCKET_3", "ROCKET_4"
 ]
+
+def get_cards_by_number(number: int) -> set[Card]:
+    return {card for card in ALL_CARDS if card.number == number and card.type != CardType.ROCKET.value}
+
+def get_cards_by_type(card_type: str) -> set[Card]:
+    return {card for card in ALL_CARDS if card.type == card_type}

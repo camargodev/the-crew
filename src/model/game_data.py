@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from src.model.round_data import RoundData
+from src.model.card import Card
 
 @dataclass(frozen=True)
 class GameData:
@@ -16,3 +17,6 @@ class GameData:
         if len(self.rounds) == 0:
             raise ValueError("No rounds played.")
         return self.rounds[-1]
+    
+    def get_all_cards_played(self) -> set[Card]:
+        return set().union(*(round_data.get_played_cards() for round_data in self.rounds))
