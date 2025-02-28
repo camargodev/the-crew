@@ -55,3 +55,5 @@ def get_cards_by_number(number: int) -> set[Card]:
 
 def get_cards_by_type(card_type: str) -> set[Card]:
     return {card for card in ALL_CARDS if card.type == card_type}
+
+ALL_ROCKETS = get_cards_by_type(CardType.ROCKET)

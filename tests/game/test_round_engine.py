@@ -21,6 +21,18 @@ def test_player_play_card():
     assert game_round.round_data.card_by_player[john] == ROCKET_2
     assert game_round.round_data.round_type == CardType.ROCKET
 
+def test_play_duplicated_card():
+    """Test if a player cannot play more than one card."""
+    john = create_player("John", [BLUE_3])
+    julie = create_player("Julie", [BLUE_3])
+
+    # First card should work
+    game_round = RoundEngine(players = [john])
+    game_round.player_play_card(john, BLUE_3)
+
+    # Second card should raise an error
+    with pytest.raises(ValueError):
+        game_round.player_play_card(julie, BLUE_3)
 
 def test_player_play_card_twice():
     """Test if a player cannot play more than one card."""
