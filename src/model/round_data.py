@@ -9,6 +9,9 @@ class RoundData:
         self.round_type: CardType | None = None  # Variable to store the type of the card in the round
 
     def add_played_card(self, player: Player, card: Card):
+        if card in set(self.card_by_player.values()):
+            raise ValueError("Card already played")
+
         self.card_by_player[player] = card
 
         # If it's the first card played in the round, store its type
