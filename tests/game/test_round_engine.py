@@ -1,8 +1,8 @@
 import pytest
-from src.model.player_hand import Player, CardHand
-from src.model.card import Card, CardType
+from src.model.card import CardType
 from src.game.round_engine import RoundEngine
 from src.model.card import *
+from tests.helpers.test_data_creation_helper import create_player
 
 def test_initial_round_type():
     """Test if round_type is initially None."""
@@ -12,7 +12,7 @@ def test_initial_round_type():
 
 def test_player_play_card():
     """Test if a player can play a card."""
-    john = Player("John", CardHand([ROCKET_2]))
+    john = create_player("John", [ROCKET_2])
 
     # Player should be able to play the card
     game_round = RoundEngine(players = [john])
@@ -24,7 +24,7 @@ def test_player_play_card():
 
 def test_player_play_card_twice():
     """Test if a player cannot play more than one card."""
-    john = Player("John", CardHand([BLUE_3, BLUE_7]))
+    john = create_player("John", [BLUE_3, BLUE_7])
 
     # First card should work
     game_round = RoundEngine(players = [john])
@@ -37,7 +37,7 @@ def test_player_play_card_twice():
         
 def test_get_round_winner_no_cards_played():
     """Test if no winner is determined if no cards are played."""
-    john = Player("John", CardHand([BLUE_3, BLUE_7]))
+    john = create_player("John", [BLUE_3, BLUE_7])
 
     game_round = RoundEngine(players = [john])
 
@@ -47,9 +47,9 @@ def test_get_round_winner_no_cards_played():
 
 def test_get_round_winner_non_rocket():
     """Test if the winner is determined correctly for non-rocket cards."""
-    john = Player("John", CardHand([BLUE_3]))
-    julie = Player("Julie", CardHand([BLUE_7]))
-    matthew = Player("Matthew", CardHand([BLUE_5]))
+    john = create_player("John", [BLUE_3])
+    julie = create_player("Julie", [BLUE_7])
+    matthew = create_player("Matthew", [BLUE_5])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
@@ -63,11 +63,11 @@ def test_get_round_winner_non_rocket():
     assert winner == julie
     assert winning_card == BLUE_7
 
-def test_get_round_winner_ROCKET_wins():
+def test_get_round_winner_rocket_wins():
     """Test if Rocket cards win over non-rocket cards."""    
-    john = Player("John", CardHand([BLUE_3]))
-    julie = Player("Julie", CardHand([BLUE_7]))
-    matthew = Player("Matthew", CardHand([ROCKET_2]))
+    john = create_player("John", [BLUE_3])
+    julie = create_player("Julie", [BLUE_7])
+    matthew = create_player("Matthew", [ROCKET_2])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
@@ -83,9 +83,9 @@ def test_get_round_winner_ROCKET_wins():
 
 def test_get_round_winner_wrong_type_are_ignored():
     """Test that only cards of the correct type are considered"""    
-    john = Player("John", CardHand([BLUE_1]))
-    julie = Player("Julie", CardHand([YELLOW_9]))
-    matthew = Player("Matthew", CardHand([PINK_9]))
+    john = create_player("John", [BLUE_1])
+    julie = create_player("Julie", [YELLOW_9])
+    matthew = create_player("Matthew", [PINK_9])
 
     game_round = RoundEngine(players = [john, julie, matthew])
 
@@ -100,12 +100,12 @@ def test_get_round_winner_wrong_type_are_ignored():
     assert winning_card == BLUE_1
 
 def test_get_round_winner_ROCKET_highest():
-    """Test if the highest Rocket card wins."""    
-    john = Player("John", CardHand([ROCKET_4]))
-    julie = Player("Julie", CardHand([BLUE_1]))
-    matthew = Player("Matthew", CardHand([ROCKET_1]))
-    anne = Player("Anne", CardHand([YELLOW_9]))
-    luke = Player("Luke", CardHand([ROCKET_2]))
+    """Test if the highest Rocket card wins."""   
+    john = create_player("John", [ROCKET_4])
+    julie = create_player("Julie", [BLUE_1])
+    matthew = create_player("Matthew", [ROCKET_1])
+    anne = create_player("Anne", [YELLOW_9])
+    luke = create_player("Luke", [ROCKET_2])
 
     game_round = RoundEngine(players = [john, julie, matthew, anne, luke])
 

@@ -1,28 +1,28 @@
 import pytest
-from src.model.player_hand import Player, CardHand
-from src.model.card import Card, CardType
+from src.model.player_hand import CardHand
 from src.model.card import *
+from tests.helpers.test_data_creation_helper import create_player
 
 def test_not_captain():
-    player = Player("John", CardHand([]))
+    player = create_player("John")
 
     player.deal_card(BLUE_3)
     assert player.is_captain() == False
 
 def test_captain():
-    player = Player("John", CardHand([]))
+    player = create_player("John")
 
     player.deal_card(ROCKET_4)
     assert player.is_captain() == True
 
 def test_play_card_not_in_hand():
-    player = Player("John", CardHand([]))
+    player = create_player("John")
 
     with pytest.raises(ValueError):
         player.play_card(YELLOW_4)
 
 def test_deal_and_play_cards():
-    player = Player("John", CardHand([]))
+    player = create_player("John")
 
     player.deal_card(ROCKET_4)
     player.deal_card(YELLOW_4)
