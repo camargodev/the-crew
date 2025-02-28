@@ -1,4 +1,5 @@
-from src.model.card import Card, CardType
+from src.model.card import Card
+from src.model.card import ROCKET_4
 from dataclasses import dataclass, field
 from typing import List
 
@@ -34,5 +35,5 @@ class Player:
 
     def is_captain(self) -> bool:
         """Returns True if the player has a ROCKET 4."""
-        return self.card_hand.has_card(Card(CardType.ROCKET, 4))
+        return self.card_hand.has_card(ROCKET_4)
 

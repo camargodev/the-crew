@@ -1,15 +1,13 @@
 import random
-from src.model.card import Card, CardType
+from src.model.player_hand import Player
+from src.model.card import ALL_CARDS
 
 class CardDealer:
-    def __init__(self):
-        self.deck = self.__create_deck__()  # Deck remains unchanged
-
-    def deal_cards(self, players):
+    def deal_cards(self, players: list[Player]):
         """Deals cards to players in a round-robin fashion without modifying self.deck.
         Returns the players and the player who is the captain.
         """
-        shuffled_deck = self.deck[:]  # Create a copy of the deck
+        shuffled_deck = ALL_CARDS[:]  # Create a copy of the deck
         random.shuffle(shuffled_deck)  # Shuffle the copy
 
         player_count = len(players)
@@ -24,20 +22,3 @@ class CardDealer:
         captain = next((player for player in players if player.is_captain()), None)
 
         return players, captain
-
-
-    
-    def __create_deck__(self):
-        """Creates a full deck of cards based on the rules."""
-        deck = []
-        
-        # Add BLUE, YELLOW, PINK, GREEN (1-9)
-        for card_type in [CardType.BLUE, CardType.YELLOW, CardType.PINK, CardType.GREEN]:
-            for number in range(1, 10):
-                deck.append(Card(card_type, number))
-        
-        # Add ROCKET (1-4)
-        for number in range(1, 5):
-            deck.append(Card(CardType.ROCKET, number))
-        
-        return deck

@@ -2,12 +2,10 @@ import pytest
 from src.model.round_data import RoundData
 from src.model.game_data import GameData
 from src.model.player_hand import Player, CardHand
-from src.model.card import Card, CardType
+from src.model.card import Card
+from src.model.card import *
 
 PLAYER_1 = Player("PLAYER_1", CardHand())
-
-BLUE_6 = Card(CardType.BLUE, 6)
-BLUE_8 = Card(CardType.BLUE, 8)
 
 def test_game_finished():
     round = create_finished_round(dict())

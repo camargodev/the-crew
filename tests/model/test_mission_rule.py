@@ -1,4 +1,5 @@
-from src.model.card import Card, CardType
+from src.model.card import Card
+from src.model.card import *
 from src.model.player_hand import Player, CardHand
 from src.model.round_data import RoundData
 from src.model.game_data import GameData
@@ -13,17 +14,7 @@ from src.model.mission import (
 PLAYER_1 = Player("PLAYER_1", CardHand())
 PLAYER_2 = Player("PLAYER_2", CardHand())
 
-BLUE_6 = Card(CardType.BLUE, 6)
-BLUE_8 = Card(CardType.BLUE, 8)
-YELLOW_9 = Card(CardType.YELLOW, 9)
-YELLOW_5 = Card(CardType.YELLOW, 5)
-ROCKET_1 = Card(CardType.ROCKET, 1)
-ROCKET_2 = Card(CardType.ROCKET, 2)
-ROCKET_3 = Card(CardType.ROCKET, 3)
-ROCKET_4 = Card(CardType.ROCKET, 4)
-PINK_2 = Card(CardType.PINK, 2)
-GREEN_4 = Card(CardType.GREEN, 4)
-PINK_1 = Card(CardType.PINK, 1)
+
 ALL_ROCKETS = {ROCKET_1, ROCKET_2, ROCKET_3, ROCKET_4}
 
 def test_player_has_to_win_card_rule__player_won_card():
