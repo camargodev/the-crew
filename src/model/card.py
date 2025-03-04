@@ -1,8 +1,11 @@
 from enum import Enum
 from dataclasses import dataclass
-from typing import ClassVar
 
 class CardType(Enum):
+    """
+    Enum representing the different types of cards in the game.
+    Types include BLUE, YELLOW, PINK, GREEN, and ROCKET.
+    """
     BLUE = "BLUE"
     YELLOW = "YELLOW"
     PINK = "PINK"
@@ -11,6 +14,13 @@ class CardType(Enum):
 
 @dataclass(frozen=True)
 class Card:
+    """
+    Represents a card in the game with a specific type and number.
+
+    Attributes:
+        type (str): The type of the card (e.g., BLUE, YELLOW).
+        number (int): The number of the card (1-9 for most types, 1-4 for ROCKET).
+    """
     type: str
     number: int
 
@@ -22,22 +32,54 @@ class Card:
 
     @classmethod
     def lock(cls):
+        """
+        Locks the Card class, preventing the creation of new Card instances.
+        """
         cls._locked = True
 
 class CardsOperation:
-    @classmethod
-    def get_cards_by_number(self, number: int) -> set[Card]:
-        return {card for card in ALL_CARDS if card.number == number and card.type != CardType.ROCKET.value}
+    """
+    A class that provides operations for retrieving cards based on their attributes.
+    """
 
     @classmethod
-    def get_cards_by_type(self, card_type: CardType) -> set[Card]:
+    def get_cards_by_number(cls, number: int) -> set[Card]:
+        """
+        Retrieves all cards of a specific number, excluding ROCKET cards.
+
+        Args:
+            number (int): The number of the cards to retrieve.
+
+        Returns:
+            set[Card]: A set of cards with the specified number (excluding ROCKET cards).
+        """
+        return {
+            card
+            for card in ALL_CARDS
+            if card.number == number and card.type != CardType.ROCKET.value
+        }
+
+    @classmethod
+    def get_cards_by_type(cls, card_type: CardType) -> set[Card]:
+        """
+        Retrieves all cards of a specific type.
+
+        Args:
+            card_type (CardType): The type of cards to retrieve.
+
+        Returns:
+            set[Card]: A set of cards of the specified type.
+        """
         return {card for card in ALL_CARDS if card.type == card_type}
 
 ## Global Cards definitions
 
 ALL_CARDS = (
-    [Card(type, number) for type in (CardType.BLUE, CardType.YELLOW, CardType.PINK, CardType.GREEN) for number in range(1, 10)] +
-    [Card(CardType.ROCKET, number) for number in range(1, 5)]
+    [Card(type, number)
+     for type in (CardType.BLUE, CardType.YELLOW, CardType.PINK, CardType.GREEN)
+     for number in range(1, 10)] +
+    [Card(CardType.ROCKET, number)
+     for number in range(1, 5)]
 )
 
 (BLUE_1, BLUE_2, BLUE_3, BLUE_4, BLUE_5, BLUE_6, BLUE_7, BLUE_8, BLUE_9,
