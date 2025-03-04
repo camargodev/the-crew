@@ -4,6 +4,17 @@ from src.model.card import *
 from src.model.round_data import RoundData
 from tests.helpers.test_data_creation_helper import create_player
 
+def test_play_duplicated_card():
+    """Test if no winner is determined if no cards are played."""
+    john = create_player("John", [BLUE_3, BLUE_7])
+
+    round_data = RoundData(players = [john])
+
+    # Impossible to determine winner, as not all players played yet
+    round_data.add_played_card(john, BLUE_3)
+    with pytest.raises(ValueError):
+        round_data.add_played_card(john, BLUE_3)
+
 def test_get_winner_no_cards_played():
     """Test if no winner is determined if no cards are played."""
     john = create_player("John", [BLUE_3, BLUE_7])
