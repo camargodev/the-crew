@@ -19,6 +19,8 @@ This is a python server (soon to-be) for an online version of the card game The 
 
 - `pip install pytest`
 - `pip install pytest-cov`
+- `pip install punq`
+- `pip install pytest-mock`
 
 ## To run tests with coverage
 
