@@ -2,7 +2,14 @@ import random
 from src.model.player_hand import Player
 from src.model.card import ALL_CARDS
 
+
 class CardDealer:
+    """
+    Class responsible for dealing cards to players in a round-robin manner.
+    It shuffles a copy of the deck and assigns cards to each player, then
+    determines the captain of the round based on the presence of the 'ROCKET 4' card.
+    """
+
     def deal_cards(self, players: list[Player]):
         """Deals cards to players in a round-robin fashion without modifying self.deck.
         Returns the players and the player who is the captain.
