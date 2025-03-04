@@ -1,6 +1,10 @@
-      
 import pytest
-from src.model.card import *
+from src.model.card import (
+    BLUE_1, BLUE_3, BLUE_5, BLUE_7,
+    YELLOW_9,
+    PINK_9,
+    ROCKET_1, ROCKET_2, ROCKET_4
+)
 from src.model.round_data import RoundData
 from tests.helpers.test_data_creation_helper import create_player
 
@@ -79,7 +83,7 @@ def test_get_winner_wrong_type_are_ignored():
     assert winner == john
     assert winning_card == BLUE_1
 
-def test_get_winner_ROCKET_highest():
+def test_get_winner_rocket_highest():
     """Test if the highest Rocket card wins."""   
     john = create_player("John", [ROCKET_4])
     julie = create_player("Julie", [BLUE_1])

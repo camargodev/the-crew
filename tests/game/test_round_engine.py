@@ -1,7 +1,6 @@
 import pytest
 import punq
-from unittest.mock import MagicMock
-from src.model.card import *
+from src.model.card import BLUE_1, BLUE_3, BLUE_5, BLUE_9
 from src.game.interface.player_interface import PlayerInterface
 from src.game.round_engine import RoundEngine
 from tests.helpers.test_data_creation_helper import create_player
