@@ -27,3 +27,8 @@ This is a python server (soon to-be) for an online version of the card game The 
 
 - `pytest --cov=src --cov-report=html`
 - Open `htmlcov\index.html` on a browser
+
+## To run linter
+
+- `pylint --disable=R0903,C0114 .\src\`
+- `pylint --disable=R0903,C0114,W0621,C0116 .\tests\`
