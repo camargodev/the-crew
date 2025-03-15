@@ -1,18 +1,22 @@
+from typing import Dict, List
 import pytest
 import punq
-from src.model.card import *
+from src.model.card import  (
+    BLUE_1, BLUE_2, BLUE_3, BLUE_4, BLUE_5, BLUE_6, BLUE_7, BLUE_8, BLUE_9,
+    PINK_1, PINK_2, PINK_3, PINK_4, PINK_5, PINK_6, PINK_7, PINK_8, PINK_9,
+    GREEN_1, GREEN_2, GREEN_3, GREEN_4, GREEN_5, GREEN_6, GREEN_7, GREEN_8, GREEN_9,
+    YELLOW_1, YELLOW_2, YELLOW_3, YELLOW_4, YELLOW_5, YELLOW_6, YELLOW_7, YELLOW_8, YELLOW_9,
+    ROCKET_1,ROCKET_2, ROCKET_3, ROCKET_4
+)
 from src.game.interface.player_interface import PlayerInterface
 from src.game.round_engine import RoundEngine
 from src.game.game_engine import GameEngine
 from src.game.card_dealer import CardDealer
-from src.model.game_missions_data import GameMissionsData
-from src.model.game_data import GameData
 from src.model.round_data import RoundData
 from src.model.player_hand import Player
-from src.game.mission_engine import MissionRule, PlayerHasToWinCardRule
+from src.game.mission_engine import PlayerHasToWinCardRule
 from src.model.card import Card
 from tests.helpers.test_data_creation_helper import create_player
-from typing import Dict, List, Tuple
 
 pytest_plugins = ["pytest_mock"]
 
@@ -29,7 +33,7 @@ def container(mocker) -> punq.Container:
     container.register(GameEngine)
     return container
 
-def test_play_game_should_return_result_as_soon_as_all_missions_are_complete(container: punq.Container):
+def test_play_game_should_return_result_as_soon_as_missions_are_complete(container: punq.Container):
     engine: GameEngine = container.resolve(GameEngine)
     round_engine: RoundEngine = container.resolve(RoundEngine)
     card_dealer: CardDealer = container.resolve(CardDealer)
@@ -49,7 +53,7 @@ def test_play_game_should_return_result_as_soon_as_all_missions_are_complete(con
         }
     )
 
-    player_1, player_2, player_3, player_4 = players
+    player_1, player_2, player_3, player_4 = players[0], players[1], players[2], players[3]
 
     given_played_round(
         round_engine,
@@ -94,7 +98,7 @@ def test_play_game_should_return_result_as_soon_as_any_mission_fail(container: p
         }
     )
 
-    player_1, player_2, player_3, player_4 = players
+    player_1, player_2, player_3, player_4 = players[0], players[1], players[2], players[3]
 
     given_played_round(
         round_engine,
@@ -140,7 +144,7 @@ def test_play_game_should_play_all_rounds_but_without_completing_mission(contain
         }
     )
 
-    player_1, player_2, player_3, player_4 = players
+    player_1, player_2, player_3, player_4 = players[0], players[1], players[2], players[3]
 
     # Generate 10 rounds with different cards for each player
     rounds_data = [
@@ -202,7 +206,7 @@ def test_play_game_should_play_all_rounds_but_without_completing_mission(contain
             player_1: PINK_4,
             player_2: GREEN_8,
             player_3: YELLOW_9,
-            player_4: PINK_5 
+            player_4: PINK_5
         })
     ]
 
