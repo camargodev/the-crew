@@ -3,7 +3,7 @@ from typing import List
 from src.model.card import Card
 from src.model.card import ROCKET_4
 
-@dataclass
+@dataclass(frozen=True)
 class CardHand:
     """
     Represents a player's hand of cards.
