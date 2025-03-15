@@ -14,6 +14,7 @@ class GameData:
     number_of_rounds: int
     rounds: list[RoundData] = field(default_factory=list)
 
+
     def add_round(self, round_data: RoundData):
         """
         Adds a new round to the game.
