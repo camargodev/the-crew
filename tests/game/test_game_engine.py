@@ -14,7 +14,7 @@ from src.game.game_engine import GameEngine
 from src.game.card_dealer import CardDealer
 from src.model.round_data import RoundData
 from src.model.player_hand import Player
-from src.game.mission_engine import PlayerHasToWinCardRule
+from src.game.mission_rules import PlayerHasToWinCardRule
 from src.model.card import Card
 from tests.helpers.test_data_creation_helper import create_player
 

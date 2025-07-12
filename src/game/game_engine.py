@@ -1,5 +1,5 @@
 from src.model.player_hand import Player
-from src.game.mission_engine import MissionRule
+from src.game.mission_rules import MissionRule
 from src.game.round_engine import RoundEngine
 from src.game.card_dealer import CardDealer
 from src.model.card import ALL_CARDS

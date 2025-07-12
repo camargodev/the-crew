@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from src.game.mission_engine import MissionRule
+from src.game.mission_rules import MissionRule
 
 @dataclass(frozen=True)
 class GameMissionsData:
