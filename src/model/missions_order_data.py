@@ -46,10 +46,22 @@ class MissionsOrderData:
 
     @classmethod
     def builder(cls):
+        """
+        Create a new builder instance for MissionsOrderData.
+
+        Returns:
+            _MissionsOrderDataBuilder: A builder to incrementally construct MissionsOrderData.
+        """
         return _MissionsOrderDataBuilder()
-    
+
     @classmethod
     def empty(cls):
+        """
+        Create an empty MissionsOrderData instance with no constraints.
+
+        Returns:
+            MissionsOrderData: An instance with no order or position restrictions.
+        """
         return MissionsOrderData.builder().build()
 
 
@@ -73,6 +85,9 @@ class _MissionsOrderDataBuilder:
         return self
 
     def build(self) -> MissionsOrderData:
+        """
+        Returns the built MissionsOrderData.
+        """
         return MissionsOrderData(
             must_come_before=self._must_come_before,
             fixed_positions=self._fixed_positions

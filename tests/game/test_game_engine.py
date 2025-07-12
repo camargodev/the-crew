@@ -79,7 +79,7 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete(contain
     assert missions_data.are_missions_complete() is True
     assert missions_data.has_any_failed_mission() is False
 
-def test_play_game_should_return_result_as_soon_as_missions_are_complete_respecting_order(container: punq.Container):
+def test_play_game_should_return_result_as_soon_as_missions_are_complete_respecting_order(container: punq.Container): # pylint: disable=line-too-long
     engine: GameEngine = container.resolve(GameEngine)
     round_engine: RoundEngine = container.resolve(RoundEngine)
     card_dealer: CardDealer = container.resolve(CardDealer)
@@ -120,9 +120,15 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
 
     first_mission = PlayerHasToWinCardRule(player_1, PINK_6)
     second_mission = PlayerHasToWinCardRule(player_4, YELLOW_8)
-    mission_order_data = MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    mission_order_data = (
+        MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    )
 
-    game_data, missions_data = engine.play_game(players, [first_mission, second_mission], mission_order_data)
+    game_data, missions_data = engine.play_game(
+        players = players,
+        missions = [first_mission, second_mission],
+        mission_order_data = mission_order_data
+    )
 
     assert len(game_data.rounds) == 2
     assert game_data.number_of_rounds == 10
@@ -133,7 +139,7 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
     assert missions_data.are_missions_complete() is True
     assert missions_data.has_any_failed_mission() is False
 
-def test_play_game_should_return_result_as_soon_as_missions_are_complete_respecting_order_with_two_missions_at_once(container: punq.Container):
+def test_play_game_should_return_result_as_soon_as_missions_are_complete_respecting_order_with_two_missions_at_once(container: punq.Container): # pylint: disable=line-too-long
     engine: GameEngine = container.resolve(GameEngine)
     round_engine: RoundEngine = container.resolve(RoundEngine)
     card_dealer: CardDealer = container.resolve(CardDealer)
@@ -169,9 +175,15 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
     # Player 1 needs to win Pink 6 and 9. It's okay to do it at the same round
     first_mission = PlayerHasToWinCardRule(player_1, PINK_6)
     second_mission = PlayerHasToWinCardRule(player_1, PINK_9)
-    mission_order_data = MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    mission_order_data = (
+        MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    )
 
-    game_data, missions_data = engine.play_game(players, [first_mission, second_mission], mission_order_data)
+    game_data, missions_data = engine.play_game(
+        players = players,
+        missions = [first_mission, second_mission],
+        mission_order_data = mission_order_data
+    )
 
     assert len(game_data.rounds) == 1
     assert game_data.number_of_rounds == 10
@@ -182,7 +194,7 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
     assert missions_data.are_missions_complete() is True
     assert missions_data.has_any_failed_mission() is False
 
-def test_play_game_should_return_result_as_soon_as_order_is_not_respected(container: punq.Container):
+def test_play_game_should_return_result_as_soon_as_order_is_not_respected(container: punq.Container): # pylint: disable=line-too-long
     engine: GameEngine = container.resolve(GameEngine)
     round_engine: RoundEngine = container.resolve(RoundEngine)
     card_dealer: CardDealer = container.resolve(CardDealer)
@@ -223,9 +235,15 @@ def test_play_game_should_return_result_as_soon_as_order_is_not_respected(contai
 
     first_mission = PlayerHasToWinCardRule(player_1, PINK_6)
     second_mission = PlayerHasToWinCardRule(player_4, YELLOW_8)
-    mission_order_data = MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    mission_order_data = (
+        MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+    )
 
-    game_data, missions_data = engine.play_game(players, [first_mission, second_mission], mission_order_data)
+    game_data, missions_data = engine.play_game(
+        players = players,
+        missions = [first_mission, second_mission],
+        mission_order_data = mission_order_data
+    )
 
     assert len(game_data.rounds) == 1
     assert game_data.number_of_rounds == 10
