@@ -16,6 +16,7 @@ from src.model.round_data import RoundData
 from src.model.player_hand import Player
 from src.game.mission_rules import PlayerHasToWinCardRule
 from src.model.card import Card
+from src.model.missions_order_data import  MissionsOrderData
 from tests.helpers.test_data_creation_helper import create_player
 
 pytest_plugins = ["pytest_mock"]
@@ -67,12 +68,12 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete(contain
 
     mission = PlayerHasToWinCardRule(player_1, YELLOW_9)
 
-    game_data, missions_data = engine.play_game(players, [mission])
+    game_data, missions_data = engine.play_game(players, [mission], MissionsOrderData.empty())
 
     assert len(game_data.rounds) == 1
     assert game_data.number_of_rounds == 10
     assert missions_data.all_missions == {mission}
-    assert missions_data.sucessfull_missions == {mission}
+    assert missions_data.successful_missions == {mission}
     assert missions_data.missing_missions == set()
     assert missions_data.failed_missions == set()
     assert missions_data.are_missions_complete() is True
@@ -112,12 +113,12 @@ def test_play_game_should_return_result_as_soon_as_any_mission_fail(container: p
 
     mission = PlayerHasToWinCardRule(player_3, YELLOW_9)
 
-    game_data, missions_data = engine.play_game(players, [mission])
+    game_data, missions_data = engine.play_game(players, [mission], MissionsOrderData.empty())
 
     assert len(game_data.rounds) == 1
     assert game_data.number_of_rounds == 10
     assert missions_data.all_missions == {mission}
-    assert missions_data.sucessfull_missions == set()
+    assert missions_data.successful_missions == set()
     assert missions_data.missing_missions == set()
     assert missions_data.failed_missions == {mission}
     assert missions_data.are_missions_complete() is False
@@ -215,7 +216,7 @@ def test_play_game_should_play_all_rounds_but_without_completing_mission(contain
     # Player 1 loses this on the last round
     mission = PlayerHasToWinCardRule(player_1, PINK_4)
 
-    game_data, missions_data = engine.play_game(players, [mission])
+    game_data, missions_data = engine.play_game(players, [mission], MissionsOrderData.empty())
 
     # Assert that 10 rounds have been played
     assert len(game_data.rounds) == 10
@@ -223,7 +224,7 @@ def test_play_game_should_play_all_rounds_but_without_completing_mission(contain
 
     # Check mission status
     assert missions_data.all_missions == {mission}
-    assert missions_data.sucessfull_missions == set()
+    assert missions_data.successful_missions == set()
     assert missions_data.missing_missions == set()
     assert missions_data.failed_missions == {mission}
     assert missions_data.are_missions_complete() is False

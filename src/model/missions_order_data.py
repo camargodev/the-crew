@@ -47,6 +47,10 @@ class MissionsOrderData:
     @classmethod
     def builder(cls):
         return _MissionsOrderDataBuilder()
+    
+    @classmethod
+    def empty(cls):
+        return MissionsOrderData.builder().build()
 
 
 class _MissionsOrderDataBuilder:

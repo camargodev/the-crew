@@ -14,7 +14,7 @@ class GameMissionsData:
     """
     all_missions: set[MissionRule]
     missing_missions: set[MissionRule]
-    sucessfull_missions: set[MissionRule] = field(default_factory=set)
+    successful_missions: set[MissionRule] = field(default_factory=set)
     failed_missions: set[MissionRule] = field(default_factory=set)
 
     @classmethod
@@ -38,7 +38,7 @@ class GameMissionsData:
         Returns:
           true if all missions were completed and none is failed
         """
-        are_all_missions_completed = len(self.sucessfull_missions) == len(self.all_missions)
+        are_all_missions_completed = len(self.successful_missions) == len(self.all_missions)
         return (not self.has_any_failed_mission()) and are_all_missions_completed
 
     def has_any_failed_mission(self) -> bool:
@@ -67,5 +67,5 @@ class GameMissionsData:
         Args:
             mission (MissionRule): the missions that succeeded
         """
-        self.sucessfull_missions.add(sucessfull_mission)
+        self.successful_missions.add(sucessfull_mission)
         self.missing_missions.remove(sucessfull_mission)
