@@ -35,8 +35,11 @@ class MissionsOrderData:
 
         # Check fixed position (if it exists)
         if new in self.fixed_positions:
+            # Expected order position is 1-indexed
+            # To be mission 1, for example, the satisfied array should be empty
             expected_position = self.fixed_positions[new]
-            if len(satisfied) != expected_position:
+            current_position = len(satisfied) + 1
+            if current_position != expected_position:
                 return False
 
         return True

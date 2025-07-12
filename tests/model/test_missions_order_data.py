@@ -10,51 +10,63 @@ def sample_missions():
 
 
 def test_order_constraint_respected(sample_missions):
-    a, b, _ = sample_missions
+    first, second, _ = sample_missions
     order_data = (
         MissionsOrderData.builder()
-        .add_order_constraint(a, b)
+        .add_order_constraint(first, second)
         .build()
     )
 
-    assert not order_data.is_order_respected([], b)
-    assert order_data.is_order_respected([a], b)
+    assert not order_data.is_order_respected([], second)
+    assert order_data.is_order_respected([first], second)
 
 
 def test_fixed_position_respected(sample_missions):
-    a, b, _ = sample_missions
+    first, other, _ = sample_missions
     order_data = (
         MissionsOrderData.builder()
-        .set_fixed_position(b, 1)
+        .set_fixed_position(first, 1)
         .build()
     )
 
-    assert not order_data.is_order_respected([], b)  # position 0, should be 1
-    assert order_data.is_order_respected([a], b)  # position 1 is ok
+    assert order_data.is_order_respected([], first)  # true because mission is the first
+    assert not order_data.is_order_respected([other], first)  # false, other mission was done first
+
+def test_with_unrelated_mission(sample_missions):
+    first, second, unrelated = sample_missions
+    order_data = (
+        MissionsOrderData.builder()
+        .add_order_constraint(first, second)
+        .build()
+    )
+
+    assert order_data.is_order_respected([unrelated], first)
+    assert order_data.is_order_respected([first], second)
+    assert order_data.is_order_respected([first, unrelated], second)
 
 
 def test_both_constraints_respected(sample_missions):
-    a, b, c = sample_missions
+    first, second, third = sample_missions
     order_data = (
         MissionsOrderData.builder()
-        .add_order_constraint(a, b)
-        .set_fixed_position(b, 2)
+        .add_order_constraint(first, second)
+        .set_fixed_position(third, 3)
         .build()
     )
 
-    satisfied = [a, c]
-    assert order_data.is_order_respected(satisfied, b)  # a was done, position 2 ok
+    assert order_data.is_order_respected([], first)
+    assert order_data.is_order_respected([first], second)
+    assert order_data.is_order_respected([first, second], third) 
 
 
 def test_both_constraints_violated(sample_missions):
-    a, b, c = sample_missions
+    first, second, third = sample_missions
     order_data = (
         MissionsOrderData.builder()
-        .add_order_constraint(a, b)
-        .set_fixed_position(b, 2)
+        .add_order_constraint(first, second)
+        .set_fixed_position(third, 3)
         .build()
     )
 
-    assert not order_data.is_order_respected([], b)  # a not done and wrong position
-    assert not order_data.is_order_respected([c], b)  # wrong position
-    assert not order_data.is_order_respected([a], b)  # right dependency, wrong position
+    assert not order_data.is_order_respected([], second)  # 'first' was not done yet, should fail
+    assert not order_data.is_order_respected([], third)  # no dependency, but wrong position, should fail
