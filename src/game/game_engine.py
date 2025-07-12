@@ -53,15 +53,26 @@ class GameEngine:
         return game_data, missions_data
 
     def __validate_missions__(self, missions_data: GameMissionsData, game_data: GameData, mission_order_data: MissionsOrderData):
-        previously_successful_missions = missions_data.successful_missions
+        # Check if any mission rule was broken before checking ordering
+        for mission_rule in missions_data.missing_missions:
+            if mission_rule.is_rule_broken(game_data):
+                missions_data.add_failed_mission(mission_rule)
+                return missions_data, True
 
-        for mission_rule in list(missions_data.missing_missions):
+        # First, check all successul missions on this round
+        # This is to cover the scenario where two ordered missions are completed at once (which is okay)
+        previously_successful_missions = missions_data.successful_missions
+        succesful_missions_on_this_round = set()
+        for mission_rule in missions_data.missing_missions:
             if mission_rule.is_rule_satisfied(game_data):
-                if mission_order_data.is_order_respected(previously_successful_missions, mission_rule):
-                    missions_data.add_sucessfull_mission(mission_rule)
-                else: 
-                    missions_data.add_failed_mission(mission_rule)
-            elif mission_rule.is_rule_broken(game_data):
+                succesful_missions_on_this_round.add(mission_rule)
+
+        # For every successful mission, check if they dependencies were already satisfied (including current round)        
+        all_sucessful_missions = previously_successful_missions.union(succesful_missions_on_this_round)
+        for mission_rule in succesful_missions_on_this_round:
+            if mission_order_data.is_order_respected(all_sucessful_missions, mission_rule):
+                missions_data.add_sucessfull_mission(mission_rule)
+            else:
                 missions_data.add_failed_mission(mission_rule)
 
             if missions_data.are_missions_complete() or missions_data.has_any_failed_mission():

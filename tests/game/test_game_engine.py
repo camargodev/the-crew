@@ -133,6 +133,55 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
     assert missions_data.are_missions_complete() is True
     assert missions_data.has_any_failed_mission() is False
 
+def test_play_game_should_return_result_as_soon_as_missions_are_complete_respecting_order_with_two_missions_at_once(container: punq.Container):
+    engine: GameEngine = container.resolve(GameEngine)
+    round_engine: RoundEngine = container.resolve(RoundEngine)
+    card_dealer: CardDealer = container.resolve(CardDealer)
+
+    players = given_players_are_dealt_cards(
+        card_dealer,
+        captain_name="player_1",
+        cards_dealt_by_player={
+            "player_1": [YELLOW_2, GREEN_5, PINK_1, BLUE_1, ROCKET_4,
+                         PINK_4, GREEN_4, YELLOW_9, BLUE_4, PINK_9],
+            "player_2": [BLUE_7, YELLOW_4, ROCKET_1, GREEN_3, PINK_8,
+                         GREEN_2, PINK_6, YELLOW_5, BLUE_3, GREEN_8],
+            "player_3": [GREEN_9, BLUE_2, BLUE_5, YELLOW_1, ROCKET_3,
+                         GREEN_6, PINK_3, YELLOW_6, BLUE_6, YELLOW_7],
+            "player_4": [ROCKET_2, GREEN_7, YELLOW_3, BLUE_8, PINK_2,
+                         YELLOW_8, PINK_5, PINK_7, GREEN_1, BLUE_9],
+        }
+    )
+
+    player_1, player_2, player_3, player_4 = players[0], players[1], players[2], players[3]
+
+    given_played_round(
+        round_engine,
+        rounds_data = [
+            make_round_data({
+                player_1: PINK_9,
+                player_2: PINK_6,
+                player_3: PINK_3,
+                player_4: PINK_5
+            })]
+    )
+
+    # Player 1 needs to win Pink 6 and 9. It's okay to do it at the same round
+    first_mission = PlayerHasToWinCardRule(player_1, PINK_6)
+    second_mission = PlayerHasToWinCardRule(player_1, PINK_9)
+    mission_order_data = MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
+
+    game_data, missions_data = engine.play_game(players, [first_mission, second_mission], mission_order_data)
+
+    assert len(game_data.rounds) == 1
+    assert game_data.number_of_rounds == 10
+    assert missions_data.all_missions == {first_mission, second_mission}
+    assert missions_data.successful_missions == {first_mission, second_mission}
+    assert missions_data.missing_missions == set()
+    assert missions_data.failed_missions == set()
+    assert missions_data.are_missions_complete() is True
+    assert missions_data.has_any_failed_mission() is False
+
 def test_play_game_should_return_result_as_soon_as_order_is_not_respected(container: punq.Container):
     engine: GameEngine = container.resolve(GameEngine)
     round_engine: RoundEngine = container.resolve(RoundEngine)
