@@ -55,7 +55,7 @@ class GameEngine:
     def __validate_missions__(self, missions_data: GameMissionsData, game_data: GameData, mission_order_data: MissionsOrderData):
         previously_successful_missions = missions_data.successful_missions
 
-        for mission_rule in missions_data.missing_missions:
+        for mission_rule in list(missions_data.missing_missions):
             if mission_rule.is_rule_satisfied(game_data):
                 if mission_order_data.is_order_respected(previously_successful_missions, mission_rule):
                     missions_data.add_sucessfull_mission(mission_rule)
