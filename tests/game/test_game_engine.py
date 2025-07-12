@@ -105,8 +105,8 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
         round_engine,
         rounds_data = [
             make_round_data({
-                player_1: PINK_6,
-                player_2: BLUE_7,
+                player_1: PINK_9,
+                player_2: PINK_6,
                 player_3: PINK_3,
                 player_4: PINK_5
             }),
@@ -118,7 +118,7 @@ def test_play_game_should_return_result_as_soon_as_missions_are_complete_respect
             })]
     )
 
-    first_mission = PlayerHasToWinCardRule(player_1, PINK_6)
+    first_mission = PlayerHasToWinCardRule(player_1, PINK_9)
     second_mission = PlayerHasToWinCardRule(player_4, YELLOW_8)
     mission_order_data = (
         MissionsOrderData.builder().add_order_constraint(first_mission, second_mission).build()
@@ -226,8 +226,8 @@ def test_play_game_should_return_result_as_soon_as_order_is_not_respected(contai
                 player_4: YELLOW_8
             }),
             make_round_data({
-                player_1: PINK_6,
-                player_2: BLUE_7,
+                player_1: PINK_9,
+                player_2: PINK_6,
                 player_3: PINK_3,
                 player_4: PINK_5
             })]
