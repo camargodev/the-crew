@@ -1,6 +1,6 @@
 import pytest
 from src.model.player_hand import CardHand
-from src.model.card import BLUE_3, ROCKET_4, YELLOW_4, ROCKET_1
+from src.model.card import CardType, BLUE_3, BLUE_4, BLUE_5, ROCKET_4, YELLOW_4, ROCKET_1
 from tests.helpers.test_data_creation_helper import create_player
 
 def test_not_captain():
@@ -31,3 +31,13 @@ def test_deal_and_play_cards():
 
     player.play_card(ROCKET_1)
     assert player.card_hand == CardHand([ROCKET_4, YELLOW_4])
+
+def test_get_playable_cards_returns_only_matching_type():
+    cards = [BLUE_3, BLUE_4, BLUE_5, ROCKET_4, YELLOW_4, ROCKET_1]
+    result = CardHand(cards).get_playable_cards(CardType.BLUE)
+    assert result == [BLUE_3, BLUE_4, BLUE_5]
+
+def test_get_playable_cards_returns_all_if_no_matching_type():
+    cards = [BLUE_3, BLUE_4, BLUE_5, ROCKET_4, YELLOW_4, ROCKET_1]
+    result = CardHand(cards).get_playable_cards(CardType.GREEN)
+    assert result == cards

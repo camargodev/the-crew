@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
-from src.model.card import Card
+from src.model.card import Card, CardType
 from src.model.card import ROCKET_4
 
 @dataclass(frozen=True)
@@ -48,6 +48,22 @@ class CardHand:
             bool: True if the card is in the hand, False otherwise.
         """
         return card in self.cards
+
+    def get_playable_cards(self, card_type: CardType) -> List[Card]:
+        """
+        Returns the playable cards based on the given card type.
+
+        If the hand contains cards of the specified type, only those are returned.
+        Otherwise, all cards in the hand are returned.
+
+        Args:
+            card_type (CardType): The type of card to filter by.
+
+        Returns:
+            List[Card]: A list of playable cards.
+        """
+        filtered = [card for card in self.cards if card.type == card_type]
+        return filtered if filtered else self.cards
 
     def __hash__(self):
         """
