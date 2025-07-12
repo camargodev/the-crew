@@ -6,7 +6,7 @@ from src.model.card import (
     ROCKET_1,ROCKET_2, ROCKET_3, ROCKET_4
 )
 from src.model.card import ALL_ROCKETS
-from src.game.mission_engine import (
+from src.game.mission_rules import (
     PlayerHasToWinCardRule,
     NeverWinWithNumberRule,
     WinOnceWithNumberRule,
