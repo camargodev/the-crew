@@ -24,7 +24,7 @@ class CommunicationManager(ABC):
         Returns:
             CommunicationResult: ENABLED, DISABLED or LIMITED.
         """
-        pass
+        pass # pragma: no cover
 
 
 class EnabledCommunicationManager(CommunicationManager):
