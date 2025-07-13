@@ -3,6 +3,8 @@ from dataclasses import dataclass, field
 from typing import List, Dict, Any
 
 class OrderToken(Enum):
+    """Order Tokens that can be associated with card missions during a game."""
+
     FIRST_ABSOLUTE = auto()
     SECOND_ABSOLUTE = auto()
     THIRD_ABSOLUTE = auto()
@@ -15,6 +17,8 @@ class OrderToken(Enum):
     FOURTH_RELATIVE = auto()
 
 class MissionType(Enum):
+    """Types of a missions for a game."""
+
     PLAYER_HAS_TO_WIN_CARD = auto()
     NEVER_WIN_WITH_NUMBER = auto()
     WIN_ONCE_WITH_NUMBER = auto()
@@ -22,6 +26,8 @@ class MissionType(Enum):
     PLAYER_SHOULD_NEVER_WIN = auto()
 
 class CommunicationType(Enum):
+    """Types of communication possible for a game or round."""
+
     REGULAR = auto()
     DEAD_ZONE = auto()
     BLOCKED_FOR_NUMBER_OF_PLAYER = auto()
@@ -29,6 +35,8 @@ class CommunicationType(Enum):
 
 @dataclass
 class LevelDefinition:
+    """Level Definition - used by Level Builder to create a Level Data."""
+
     order_tokens: List[OrderToken]
     mission_types: Dict[MissionType, int]
     communication_type: CommunicationType

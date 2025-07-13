@@ -1,6 +1,5 @@
-import pytest
 from unittest.mock import MagicMock
-from typing import List
+import pytest
 
 from src.model.level_definition import MissionType
 from src.game.mission_rules import (
@@ -11,21 +10,22 @@ from src.game.mission_rules import (
     PlayerHasToWinCardRule,
 )
 from src.model.card import (
-    BLUE_1, BLUE_2, BLUE_3, BLUE_4, BLUE_8,
+    BLUE_1, BLUE_2, BLUE_8,
     PINK_2,
     GREEN_3
 )
-from tests.helpers.test_data_creation_helper import create_player
 from src.game.mission_rule_factories import (
     StaticMissionRuleFactory,
     PlayerShouldNeverWinMissionRuleFactory,
     PlayerHasToWinMissionRuleListFactory,
 )
 
+from tests.helpers.test_data_creation_helper import create_player
+
 class TestStaticMissionRuleFactory:
     def test_create_never_win_with_number(self):
         rule = StaticMissionRuleFactory.create(
-            MissionType.NEVER_WIN_WITH_NUMBER, 
+            MissionType.NEVER_WIN_WITH_NUMBER,
             {MissionType.NEVER_WIN_WITH_NUMBER: {"mission_number": 7}}
         )
         assert isinstance(rule, NeverWinWithNumberRule)
@@ -155,7 +155,6 @@ class TestPlayerHasToWinMissionRuleListFactory:
         ]
         self.verify_interface_calls(interface_args, expected_calls)
 
-        
     def test_player_in_the_middle_skips_others_have_to_select(self):
         player_1 = create_player("P1")
         player_2 = create_player("P2`")
@@ -249,7 +248,7 @@ class TestPlayerHasToWinMissionRuleListFactory:
 
         self.mock_interface.select_mission.side_effect = select_mission
         return call_args
-    
+
     def verify_interface_calls(self, interface_args, expected_calls):
         for i, (player_id, available_cards, can_skip) in enumerate(interface_args):
             exp_player_id, exp_available_cards, exp_can_skip = expected_calls[i]

@@ -1,14 +1,8 @@
-import pytest
 from unittest.mock import MagicMock
-from src.model.card import BLUE_1, BLUE_2, BLUE_3, BLUE_4
+
+from src.model.card import BLUE_1, BLUE_2
 from src.model.level_definition import MissionType, LevelDefinition, CommunicationType
-from src.model.player_hand import Player
 from src.game.mission_rule_builder import MissionRuleListBuilder
-from src.game.mission_rule_factories import (
-    StaticMissionRuleFactory,
-    PlayerShouldNeverWinMissionRuleFactory,
-    PlayerHasToWinMissionRuleListFactory,
-)
 from src.game.mission_rules import (
     PlayerHasToWinCardRule,
     PlayerShouldNeverWinRule,
@@ -16,6 +10,7 @@ from src.game.mission_rules import (
     WinOnceWithNumberRule,
     WinWithAllTheseCardsRule,
 )
+
 from tests.helpers.test_data_creation_helper import create_player
 
 class TestMissionRuleListBuilder:
@@ -97,4 +92,4 @@ class TestMissionRuleListBuilder:
         )
 
         rules = self.builder.build(self.players, definition, [])
-        assert rules == []
+        assert not rules

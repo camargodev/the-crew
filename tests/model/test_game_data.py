@@ -1,7 +1,11 @@
 import pytest
-from src.model.player_hand import Player, CardHand
+
 from src.model.card import BLUE_6, BLUE_8
-from tests.helpers.test_data_creation_helper import create_finished_round, create_test_game, create_player
+from tests.helpers.test_data_creation_helper import (
+    create_finished_round,
+    create_test_game,
+    create_player
+)
 
 PLAYER_1 = create_player("Player 1")
 

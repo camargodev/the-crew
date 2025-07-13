@@ -1,5 +1,3 @@
-import pytest
-from typing import List
 from unittest.mock import Mock
 
 from src.game.communication_manager import (
@@ -12,7 +10,6 @@ from src.game.communication_manager import (
 )
 
 from src.model.level_definition import LevelDefinition, CommunicationType
-from src.model.player_hand import Player
 from src.game.interface.player_interface import PlayerInterface
 from tests.helpers.test_data_creation_helper import create_player
 

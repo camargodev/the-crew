@@ -4,9 +4,12 @@ from src.game.mission_rules import MissionRule
 from src.model.card import Card
 from src.model.player_hand import Player
 from src.game.interface.player_interface import PlayerInterface
-from src.game.mission_rules import PlayerHasToWinCardRule
 from src.model.level_definition import LevelDefinition
-from src.game.mission_rule_factories import PlayerHasToWinMissionRuleListFactory, PlayerShouldNeverWinMissionRuleFactory, StaticMissionRuleFactory
+from src.game.mission_rule_factories import (
+    PlayerHasToWinMissionRuleListFactory,
+    PlayerShouldNeverWinMissionRuleFactory,
+    StaticMissionRuleFactory
+)
 
 class MissionRuleListBuilder:
     """
@@ -38,8 +41,8 @@ class MissionRuleListBuilder:
 
         Args:
             players (List[Player]): The list of players participating.
-            level_definition (LevelDefinition): The level definition containing mission types and metadata.
-            mission_cards (List[Card]): The list of cards to assign for PLAYER_HAS_TO_WIN_CARD missions.
+            level_definition (LevelDefinition): contains the mission types and metadata.
+            mission_cards (List[Card]): List of cards to assign for PLAYER_HAS_TO_WIN_CARD missions.
 
         Returns:
             List[MissionRule]: The list of constructed mission rules.
@@ -58,7 +61,7 @@ class MissionRuleListBuilder:
                 continue
 
             mission_rule = StaticMissionRuleFactory.create(
-                mission_type, 
+                mission_type,
                 level_definition.missions_metadata
             )
             mission_rules.append(mission_rule)

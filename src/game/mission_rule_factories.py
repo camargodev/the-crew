@@ -13,6 +13,8 @@ from src.game.interface.player_interface import PlayerInterface
 from src.game.mission_rules import PlayerHasToWinCardRule
 
 class StaticMissionRuleFactory:
+    """Factory class for missions that are not player-dependent."""
+
     @staticmethod
     def create(mission_type: MissionType, metadata: Dict[MissionType, Any]) -> MissionRule:
         """
@@ -26,20 +28,22 @@ class StaticMissionRuleFactory:
             MissionRule: The created mission rule instance.
         """
 
-        metadata_for_mission = metadata.get(mission_type, dict())
+        metadata_for_mission = metadata.get(mission_type, {})
 
         if mission_type == MissionType.NEVER_WIN_WITH_NUMBER:
-            return NeverWinWithNumberRule(number=metadata_for_mission['mission_number'])
+            return NeverWinWithNumberRule(metadata_for_mission['mission_number'])
 
         if mission_type == MissionType.WIN_ONCE_WITH_NUMBER:
-            return WinOnceWithNumberRule(number=metadata_for_mission['mission_number'])
+            return WinOnceWithNumberRule(metadata_for_mission['mission_number'])
 
         if mission_type == MissionType.WIN_WITH_ALL_THESE_CARDS:
-            return WinWithAllTheseCardsRule(cards_that_need_to_win=metadata_for_mission['cards_that_need_to_win'])
+            return WinWithAllTheseCardsRule(metadata_for_mission['cards_that_need_to_win'])
 
         raise ValueError(f"Unsupported mission type: {mission_type}")
-    
+
 class PlayerShouldNeverWinMissionRuleFactory:
+    """Factory class for missions where a player cannot win."""
+
     def __init__(self, player_interface: PlayerInterface):
         self.player_interface = player_interface
 
@@ -52,6 +56,8 @@ class PlayerShouldNeverWinMissionRuleFactory:
         return PlayerShouldNeverWinRule(player_that_should_never_win=selected_player)
 
 class PlayerHasToWinMissionRuleListFactory:
+    """Factory class for missions where a player needs to win a card."""
+
     def __init__(self, player_interface: PlayerInterface):
         self.player_interface = player_interface
 
