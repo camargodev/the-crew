@@ -79,8 +79,5 @@ class CommunicationManagerFactory:
             blocked_ids = {player.id for player in blocked_players}
             return BlockedForNumberOfPlayerManager(blocked_ids)
 
-        if comm_type == CommunicationType.BLOCKED_UNTIL_ROUND:
-            round_num = metadata["starting_round"]
-            return BlockedUntilRoundManager(round_num)
-
-        raise ValueError(f"Unsupported CommunicationType: {comm_type}")
+        round_num = metadata["starting_round"]
+        return BlockedUntilRoundManager(round_num)
