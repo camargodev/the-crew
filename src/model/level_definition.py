@@ -30,9 +30,10 @@ class CommunicationType(Enum):
 @dataclass
 class LevelDefinition:
     order_tokens: List[OrderToken]
-    mission_types: Dict[MissionType, 3]
+    mission_types: Dict[MissionType, int]
     communication_type: CommunicationType
     communication_metadata: Dict[str, Any] = field(default_factory=dict)
+    missions_metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 LEVEL_1 = LevelDefinition(
