@@ -50,7 +50,7 @@ class MissionRuleListBuilder:
             mission_rules += self.player_win_factory.create(players, mission_cards)
 
         for mission_type in level_definition.mission_types:
-            if mission_type in MissionType.PLAYER_HAS_TO_WIN_CARD:
+            if mission_type == MissionType.PLAYER_HAS_TO_WIN_CARD:
                 continue
 
             if mission_type == MissionType.PLAYER_SHOULD_NEVER_WIN:

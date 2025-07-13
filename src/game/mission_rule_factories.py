@@ -14,7 +14,7 @@ from src.game.mission_rules import PlayerHasToWinCardRule
 
 class StaticMissionRuleFactory:
     @staticmethod
-    def create(mission_type: MissionType, data: Dict[str, Any]) -> MissionRule:
+    def create(mission_type: MissionType, metadata: Dict[MissionType, Any]) -> MissionRule:
         """
         Create a static MissionRule instance based on mission_type and provided data.
 
@@ -26,14 +26,16 @@ class StaticMissionRuleFactory:
             MissionRule: The created mission rule instance.
         """
 
+        metadata_for_mission = metadata.get(mission_type, dict())
+
         if mission_type == MissionType.NEVER_WIN_WITH_NUMBER:
-            return NeverWinWithNumberRule(number=data['mission_number'])
+            return NeverWinWithNumberRule(number=metadata_for_mission['mission_number'])
 
         if mission_type == MissionType.WIN_ONCE_WITH_NUMBER:
-            return WinOnceWithNumberRule(number=data['mission_number'])
+            return WinOnceWithNumberRule(number=metadata_for_mission['mission_number'])
 
         if mission_type == MissionType.WIN_WITH_ALL_THESE_CARDS:
-            return WinWithAllTheseCardsRule(cards_that_need_to_win=data['cards_that_need_to_win'])
+            return WinWithAllTheseCardsRule(cards_that_need_to_win=metadata_for_mission['cards_that_need_to_win'])
 
         raise ValueError(f"Unsupported mission type: {mission_type}")
     

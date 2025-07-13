@@ -25,14 +25,16 @@ from src.game.mission_rule_factories import (
 class TestStaticMissionRuleFactory:
     def test_create_never_win_with_number(self):
         rule = StaticMissionRuleFactory.create(
-            MissionType.NEVER_WIN_WITH_NUMBER, {"mission_number": 7}
+            MissionType.NEVER_WIN_WITH_NUMBER, 
+            {MissionType.NEVER_WIN_WITH_NUMBER: {"mission_number": 7}}
         )
         assert isinstance(rule, NeverWinWithNumberRule)
         assert rule.number == 7
 
     def test_create_win_once_with_number(self):
         rule = StaticMissionRuleFactory.create(
-            MissionType.WIN_ONCE_WITH_NUMBER, {"mission_number": 3}
+            MissionType.WIN_ONCE_WITH_NUMBER,
+            {MissionType.WIN_ONCE_WITH_NUMBER: {"mission_number": 3}}
         )
         assert isinstance(rule, WinOnceWithNumberRule)
         assert rule.number == 3
@@ -40,7 +42,8 @@ class TestStaticMissionRuleFactory:
     def test_create_win_with_all_these_cards(self):
         cards = {BLUE_1, BLUE_2}
         rule = StaticMissionRuleFactory.create(
-            MissionType.WIN_WITH_ALL_THESE_CARDS, {"cards_that_need_to_win": cards}
+            MissionType.WIN_WITH_ALL_THESE_CARDS,
+            {MissionType.WIN_WITH_ALL_THESE_CARDS: {"cards_that_need_to_win": cards}}
         )
         assert isinstance(rule, WinWithAllTheseCardsRule)
         assert rule.cards_that_need_to_win == cards
@@ -237,45 +240,6 @@ class TestPlayerHasToWinMissionRuleListFactory:
             (player_3.id, [BLUE_1], False)
         ]
         self.verify_interface_calls(interface_args, expected_calls)
-
-
-    # def test_all_players_skip_until_last_card(self):
-    #     selections = [None, None, None, BLUE_1]
-    #     call_args = []
-
-    #     def select_mission(player, available_cards, can_skip):
-    #         call_args.append((player.name, list(available_cards), can_skip))
-    #         return selections[len(call_args) - 1]
-
-    #     self.mock_interface.select_mission.side_effect = select_mission
-
-    #     rules = self.factory.create(self.players, self.cards)
-
-    #     assert len(rules) == 1
-    #     assert rules[0].player == self.players[0]
-    #     assert rules[0].card == BLUE_1
-
-    #     expected_can_skip_sequence = [True, False, False, False]
-    #     for i, (_, _, can_skip) in enumerate(call_args):
-    #         assert can_skip == expected_can_skip_sequence[i]
-
-    # def test_interface_called_with_correct_parameters(self):
-    #     def select_mission(player, available_cards, can_skip):
-    #         return available_cards[0]
-
-    #     self.mock_interface.select_mission.side_effect = select_mission
-
-    #     self.factory.create(self.players, self.cards)
-
-    #     expected_call_count = len(self.cards)
-    #     assert self.mock_interface.select_mission.call_count == expected_call_count
-
-    #     for call_index, call_args in enumerate(self.mock_interface.select_mission.call_args_list):
-    #         player_arg, cards_arg, can_skip_arg = call_args[0]
-    #         assert isinstance(player_arg, type(self.players[0]))
-    #         assert isinstance(cards_arg, list)
-    #         assert isinstance(can_skip_arg, bool)
-    #         assert len(cards_arg) == len(self.cards) - call_index
 
     def mock_selected_cards_and_return_args(self, selection_sequence):
         call_args = []
