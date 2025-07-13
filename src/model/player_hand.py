@@ -78,12 +78,14 @@ class CardHand:
 @dataclass(frozen=True)
 class Player:
     """
-    Represents a player in the game, including their name and card hand.
+    Represents a player in the game, including their id, name and card hand.
 
     Attributes:
+        id (int): The id for the player
         name (str): The name of the player.
         card_hand (CardHand): The cards currently held by the player.
     """
+    id: int
     name: str
     card_hand: CardHand
 

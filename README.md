@@ -26,9 +26,12 @@ This is a python server (soon to-be) for an online version of the card game The 
 ## To run tests with coverage
 
 - `pytest --cov=src --cov-report=html`
+  - Or `python -m pytest --cov=src --cov-report=html`
 - Open `htmlcov\index.html` on a browser
 
 ## To run linter
 
 - `pylint --disable=R0903,C0114 .\src\`
-- `pylint --disable=R0903,C0114,W0621,C0116 .\tests\`
+  - Or `python -m pylint --disable=R0903,C0114 .\src\`
+- `pylint --disable=R0903,C0114,W0621,C0116,C0115,W0201 .\tests\`
+  - Or `python -m pylint --disable=R0903,C0114,W0621,C0116,C0115,W0201 .\tests\`

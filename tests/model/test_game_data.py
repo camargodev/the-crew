@@ -1,9 +1,13 @@
 import pytest
-from src.model.player_hand import Player, CardHand
-from src.model.card import BLUE_6, BLUE_8
-from tests.helpers.test_data_creation_helper import create_finished_round, create_test_game
 
-PLAYER_1 = Player("PLAYER_1", CardHand())
+from src.model.card import BLUE_6, BLUE_8
+from tests.helpers.test_data_creation_helper import (
+    create_finished_round,
+    create_test_game,
+    create_player
+)
+
+PLAYER_1 = create_player("Player 1")
 
 def test_game_finished():
     game_round = create_finished_round({})
