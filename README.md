@@ -26,6 +26,7 @@ This is a python server (soon to-be) for an online version of the card game The 
 ## To run tests with coverage
 
 - `pytest --cov=src --cov-report=html`
+  - Or `python -m pytest --cov=src --cov-report=html`
 - Open `htmlcov\index.html` on a browser
 
 ## To run linter
